@@ -68,12 +68,12 @@ mkdir -p custom_data/{0,1,2,3,4,5,6,7,8,9}
 ```
 
 ### Step 2: Augment the Data
-Run the augmentation script to expand your 100 images into 2,100 images. This prevents the neural network from simply memorizing your original 100 pictures.
+Run the augmentation script to expand your 100 images into 3,100 images. This prevents the neural network from simply memorizing your original 100 pictures.
 
 ```bash
 python augment_data.py
 ```
-*You will now see `10.png` through `209.png` in each folder. Open a few to verify they look like slightly altered versions of your handwriting. Original images will be reformatted.*
+*You will now see `10.png` through `309.png` in each folder. Open a few to verify they look like slightly altered versions of your handwriting. Original images will be reformatted.*
 
 ### Step 3: Train the Model
 Train the CNN on your newly expanded dataset. The script will automatically split the data into 80% training and 20% testing.
