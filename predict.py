@@ -102,8 +102,13 @@ def main():
     img_path = sys.argv[1]
     multi_mode = '--multi' in sys.argv
     
+    # Check if the image file exists 
+    if not os.path.exists(img_path):
+        print(f"Error: Image file '{img_path}' not found. Please check the file path and name.")
+        sys.exit(1)
+    
     if not os.path.exists('my_handwriting_model.keras'):
-        print("Error: my_handwriting_model.keras not found. Run train.py first.")
+        print("Error: my_handwriting_model.keras not found. Run train_custom.py first.")
         sys.exit(1)
     
     model = load_model()
