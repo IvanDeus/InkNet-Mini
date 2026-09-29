@@ -1,6 +1,6 @@
 # InkNet-Mini: Personalized Handwritten Digit Recognition from Minimal Data
 
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.15+-orange.svg)](https://www.tensorflow.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
@@ -33,8 +33,8 @@ InkNet-Mini/
 
 ## 🛠️ Prerequisites
 
-- **OS:** Ubuntu 24.04 (or any modern Linux/macOS/Windows)
-- **Python:** 3.10 or higher (Python 3.12 recommended for Ubuntu 24.04)
+- **OS:** Ubuntu 24.04
+- **Python:** 3.13 or higher
 - **Hardware:** CPU is sufficient (GPU optional but faster)
 
 ## 🚀 Installation
