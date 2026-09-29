@@ -28,7 +28,7 @@ InkNet-Mini/
 │   ├── 0/                   # Contains 00.png to 09.png (and generated 10.png-209.png)
 │   ├── 1/
 │   └── ...
-└── my_handwriting_model.h5  # The trained model (generated after training)
+└── my_handwriting_model.keras  # The trained model (generated after training)
 ```
 
 ## 🛠️ Prerequisites
