@@ -30,7 +30,14 @@ def preprocess_digit(digit_img):
     
     return canvas.reshape(1, 28, 28, 1)
 
-def predict_single_digit(model, img_path):
+def predict_single_digit(model, img_path, verbose=False):
+    prediction = model.predict(processed, verbose=0)
+
+    if verbose:
+        print("Probabilities for all digits:")
+        for digit_class, probability in enumerate(prediction[0]):
+            print(f"  {digit_class}: {probability:.4f} ({probability:.2%})")
+
     """Predict single digit from image file"""
     img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
     if img is None:
@@ -43,7 +50,14 @@ def predict_single_digit(model, img_path):
     
     return digit, confidence
 
-def predict_multiple_digits(model, img_path):
+def predict_multiple_digits(model, img_path, verbose=False):
+        prediction = model.predict(processed, verbose=0)
+
+        if verbose:
+            print(f"Probabilities for detected digit {len(digits) + 1} (x={x}, y={y}, w={w}, h={h}):")
+            for digit_class, probability in enumerate(prediction[0]):
+                print(f"  {digit_class}: {probability:.4f} ({probability:.2%})")
+
     """Predict multiple digits from image (e.g., phone number)"""
     img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
     if img is None:
@@ -95,12 +109,13 @@ def predict_multiple_digits(model, img_path):
 def main():
     if len(sys.argv) < 2:
         print("Usage:")
-        print("  Single digit:  python predict.py image.png")
-        print("  Multiple:      python predict.py image.png --multi")
+        print("  Single digit:  python predict.py image.png [--verbose]")
+        print("  Multiple:      python predict.py image.png --multi [--verbose]")
         sys.exit(1)
     
     img_path = sys.argv[1]
     multi_mode = '--multi' in sys.argv
+    verbose_mode = '--verbose' in sys.argv
     
     # Check if the image file exists 
     if not os.path.exists(img_path):
@@ -114,12 +129,12 @@ def main():
     model = load_model()
     
     if multi_mode:
-        result, confidences = predict_multiple_digits(model, img_path)
+        result, confidences = predict_multiple_digits(model, img_path, verbose=verbose_mode)
         print(f"Recognized: {result}")
         if confidences:
             print("Confidences:", [f"{c:.2%}" for c in confidences])
     else:
-        digit, confidence = predict_single_digit(model, img_path)
+        digit, confidence = predict_single_digit(model, img_path, verbose=verbose_mode)
         print(f"Recognized: {digit}")
         print(f"Confidence: {confidence:.2%}")
 
