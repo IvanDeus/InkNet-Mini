@@ -104,8 +104,8 @@ python predict.py path/to/phone_number.png --multi
 
 Expected output: 
 ```bash
-Recognized: 4
-Confidence: 99.58%
+Recognized: 093205417
+Confidences: ['99.99%', '100.00%', '97.88%', '91.39%', '100.00%', '99.97%', '100.00%', '99.95%', '99.99%']
 ```
 
 ## 🧠 How It Works
