@@ -102,8 +102,8 @@ def main():
     img_path = sys.argv[1]
     multi_mode = '--multi' in sys.argv
     
-    if not os.path.exists('mnist_model.h5'):
-        print("Error: mnist_model.h5 not found. Run train.py first.")
+    if not os.path.exists('my_handwriting_model.keras'):
+        print("Error: my_handwriting_model.keras not found. Run train.py first.")
         sys.exit(1)
     
     model = load_model()
