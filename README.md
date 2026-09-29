@@ -108,6 +108,5 @@ python predict.py path/to/phone_number.png --multi
 - **Centering:** Try to draw the digits roughly in the center of the image frame.
 - **Isolate Digits for Multi-Prediction:** When using the `--multi` flag, ensure there is clear, empty space between each digit in the source image so the contour detection can separate them accurately.
 
-```
-
+---
 2026 [ ivan deus ]
