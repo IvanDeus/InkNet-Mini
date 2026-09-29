@@ -65,7 +65,7 @@ def augment_image(img):
 
 def main():
     base_dir = 'custom_data'
-    num_augmentations_per_image = 20  # Generates 20 new images per original
+    num_augmentations_per_image = 40  # Generates x new images
     
     print("Starting data augmentation and preprocessing...")
     
