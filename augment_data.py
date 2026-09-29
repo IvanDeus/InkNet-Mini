@@ -5,10 +5,12 @@ import numpy as np
 
 def preprocess_to_mnist(img):
     """Convert image to 28x28, white text on black background (MNIST standard)"""
-    # Resize to 28x28
+    # 1. Force exact same size (28x28)
     img = cv2.resize(img, (28, 28), interpolation=cv2.INTER_AREA)
     
-    # If image is mostly white (black pen on white paper), invert it
+    # 2. Fix background color. 
+    # If the image is mostly white (black pen on white paper), invert it.
+    # MNIST requires white pen on black background.
     if np.mean(img) > 127:
         img = 255 - img
         
@@ -21,7 +23,7 @@ def augment_image(img):
     # 1. Random Rotation (-15 to 15 degrees)
     angle = np.random.uniform(-15, 15)
     M_rot = cv2.getRotationMatrix2D((w/2, h/2), angle, 1.0)
-    img = cv2.warpAffine(img, M_rot, (w, h), borderValue=0) # borderValue=0 keeps background black
+    img = cv2.warpAffine(img, M_rot, (w, h), borderValue=0) 
     
     # 2. Random Translation (Shift X and Y)
     tx = np.random.uniform(-w * 0.15, w * 0.15)
@@ -42,7 +44,6 @@ def augment_image(img):
     if np.random.rand() > 0.5:
         noise = np.random.normal(0, 10, img.shape).astype(np.uint8)
         img = cv2.add(img, noise)
-        # Clip values to ensure they stay within 0-255
         img = np.clip(img, 0, 255).astype(np.uint8)
         
     return img
@@ -51,7 +52,7 @@ def main():
     base_dir = 'custom_data'
     num_augmentations_per_image = 20  # Generates 20 new images per original
     
-    print("Starting data augmentation...")
+    print("Starting data augmentation and preprocessing...")
     
     for digit in range(10):
         folder = os.path.join(base_dir, str(digit))
@@ -75,19 +76,23 @@ def main():
                 print(f"Error reading {img_path}")
                 continue
                 
-            # Preprocess the original image first
+            # PREPROCESS THE ORIGINAL IMAGE
             img = preprocess_to_mnist(img)
             
-            # Generate and save augmented variations
+            # OVERWRITE THE ORIGINAL FILE with the cleaned-up version
+            # This ensures train_custom.py reads a perfectly uniform dataset
+            cv2.imwrite(img_path, img)
+            
+            # Generate and save augmented variations based on the cleaned image
             for i in range(num_augmentations_per_image):
                 aug_img = augment_image(img.copy())
                 aug_name = f"{aug_count:02d}.png"
                 cv2.imwrite(os.path.join(folder, aug_name), aug_img)
                 aug_count += 1
                 
-        print(f"Digit {digit}: Processed {len(original_files)} originals, generated {aug_count - 10} augmented images.")
+        print(f"Digit {digit}: Preprocessed & overwrote {len(original_files)} originals, generated {aug_count - 10} augmented images.")
         
-    print("\nAugmentation complete! Your custom_data folders now contain 210 images each.")
+    print("\nDone! All images in custom_data/ are now exactly 28x28, white-on-black, and augmented.")
 
 if __name__ == "__main__":
     main()
