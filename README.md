@@ -81,7 +81,7 @@ Train the CNN on your newly expanded dataset. The script will automatically spli
 ```bash
 python train_custom.py
 ```
-*Watch the console output. You want to see both `accuracy` (training) and `val_accuracy` (testing) climb together. This will generate `my_handwriting_model.h5`.*
+*Watch the console output. You want to see both `accuracy` (training) and `val_accuracy` (testing) climb together. This will generate `my_handwriting_model.keras`.*
 
 ### Step 4: Predict / Inference
 Use the prediction script to test the model on brand new images of your handwriting.
