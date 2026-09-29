@@ -45,18 +45,19 @@ def main():
     
     print(f"Training set: {len(X_train)} images | Testing set: {len(X_test)} images")
     
-    # Build a slightly more robust model since we now have ~1680 training images
+    # Build the model (Fixed Keras 3 Input warning)
     model = tf.keras.Sequential([
-        tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)),
+        tf.keras.layers.Input(shape=(28, 28, 1)),
+        tf.keras.layers.Conv2D(32, (3, 3), activation='relu'), 
         tf.keras.layers.MaxPooling2D((2, 2)),
         tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
         tf.keras.layers.MaxPooling2D((2, 2)),
         tf.keras.layers.Flatten(),
         tf.keras.layers.Dense(64, activation='relu'),
-        tf.keras.layers.Dropout(0.5),  # Dropout prevents overfitting
+        tf.keras.layers.Dropout(0.5),
         tf.keras.layers.Dense(10, activation='softmax')
     ])
-    
+       
     model.compile(optimizer='adam',
                   loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
@@ -71,8 +72,8 @@ def main():
     )
     
     # Save the model
-    model.save('my_handwriting_model.h5')
-    print("\nModel saved to my_handwriting_model.h5")
+    model.save('my_handwriting_model.keras')
+    print("\nModel saved to my_handwriting_model.keras")
     
     # Final evaluation
     test_loss, test_acc = model.evaluate(X_test, y_test, verbose=0)
