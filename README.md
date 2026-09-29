@@ -91,9 +91,21 @@ Use the prediction script to test the model on brand new images of your handwrit
 python predict.py path/to/single_digit.png
 ```
 
+Expected output: 
+```bash
+Recognized: 4
+Confidence: 99.58%
+```
+
 **Recognize a sequence (like a phone number or postal code):**
 ```bash
 python predict.py path/to/phone_number.png --multi
+```
+
+Expected output: 
+```bash
+Recognized: 4
+Confidence: 99.58%
 ```
 
 ## 🧠 How It Works
