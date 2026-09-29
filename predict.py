@@ -31,13 +31,6 @@ def preprocess_digit(digit_img):
     return canvas.reshape(1, 28, 28, 1)
 
 def predict_single_digit(model, img_path, verbose=False):
-    prediction = model.predict(processed, verbose=0)
-
-    if verbose:
-        print("Probabilities for all digits:")
-        for digit_class, probability in enumerate(prediction[0]):
-            print(f"  {digit_class}: {probability:.4f} ({probability:.2%})")
-
     """Predict single digit from image file"""
     img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
     if img is None:
@@ -45,17 +38,18 @@ def predict_single_digit(model, img_path, verbose=False):
     
     processed = preprocess_digit(img)
     prediction = model.predict(processed, verbose=0)
+
+    if verbose:
+        print("Probabilities for all digits:")
+        for digit_class, probability in enumerate(prediction[0]):
+            print(f"  {digit_class}: {probability:.4f} ({probability:.2%})")
+
     digit = np.argmax(prediction)
     confidence = np.max(prediction)
     
     return digit, confidence
 
 def predict_multiple_digits(model, img_path, verbose=False):
-    prediction = model.predict(processed, verbose=0)
-    if verbose:
-        print(f"Probabilities for detected digit {len(digits) + 1} (x={x}, y={y}, w={w}, h={h}):")
-        for digit_class, probability in enumerate(prediction[0]):
-            print(f"  {digit_class}: {probability:.4f} ({probability:.2%})")
     """Predict multiple digits from image (e.g., phone number)"""
     img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
     if img is None:
@@ -96,6 +90,12 @@ def predict_multiple_digits(model, img_path, verbose=False):
         # Predict
         processed = preprocess_digit(digit_img)
         prediction = model.predict(processed, verbose=0)
+
+        if verbose:
+            print(f"Probabilities for detected digit {len(digits) + 1} (x={x}, y={y}, w={w}, h={h}):")
+            for digit_class, probability in enumerate(prediction[0]):
+                print(f"  {digit_class}: {probability:.4f} ({probability:.2%})")
+
         digit = np.argmax(prediction)
         confidence = np.max(prediction)
         
