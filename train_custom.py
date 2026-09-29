@@ -65,7 +65,7 @@ def main():
     print("\nStarting training...")
     history = model.fit(
         X_train, y_train, 
-        epochs=20, 
+        epochs=40, 
         batch_size=32, 
         validation_data=(X_test, y_test),
         verbose=1
