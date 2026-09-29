@@ -11,7 +11,7 @@ While standard digit recognition models rely on massive datasets like MNIST (60,
 ## ✨ Features
 
 - **Minimal Data Footprint:** Requires only 10 original images per digit (100 total).
-- **Automated Data Augmentation:** Generates 20 unique variations per image (rotation, shifting, zooming, noise) to prevent overfitting.
+- **Automated Data Augmentation:** Generates additional unique variations per image (rotation, shifting, zooming, noise) to prevent overfitting.
 - **Custom CNN Architecture:** Optimized for small datasets with strategic dropout layers.
 - **Multi-Digit Inference:** Can process full phone numbers or postal codes, not just isolated digits.
 - **Modular Pipeline:** Clean separation between data augmentation, model training, and inference.
