@@ -4,15 +4,19 @@ import cv2
 import numpy as np
 
 def preprocess_to_mnist(img):
-    """Convert image to 28x28, white text on black background (MNIST standard)"""
+    """Convert image to 28x28, pure white text on pure black background"""
     # 1. Force exact same size (28x28)
     img = cv2.resize(img, (28, 28), interpolation=cv2.INTER_AREA)
     
-    # 2. Fix background color. 
-    # If the image is mostly white (black pen on white paper), invert it.
-    # MNIST requires white pen on black background.
-    if np.mean(img) > 127:
+    # 2. Smart Inversion: Check the corners to determine background color
+    # If corners are bright, it's white paper with black ink -> invert it.
+    corners = [img[0, 0], img[0, -1], img[-1, 0], img[-1, -1]]
+    if np.mean(corners) > 127:
         img = 255 - img
+        
+    # 3. Strict Thresholding: Remove paper texture, shadows, and gray backgrounds.
+    # Forces background to pure black (0) and ink to pure white (255).
+    _, img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
         
     return img
 
@@ -40,11 +44,22 @@ def augment_image(img):
     if np.random.rand() > 0.5:
         img = cv2.GaussianBlur(img, (3, 3), 0)
         
-    # 5. Add slight noise (simulates paper texture/rough pen)
+    # 5. FIXED Noise Addition: Apply noise ONLY to the white ink, not the black background
     if np.random.rand() > 0.5:
-        noise = np.random.normal(0, 10, img.shape).astype(np.uint8)
-        img = cv2.add(img, noise)
-        img = np.clip(img, 0, 255).astype(np.uint8)
+        # Create a mask of the ink (pixels > 0)
+        mask = img > 0 
+        # Generate float noise to prevent uint8 wrap-around bug
+        noise = np.random.normal(0, 15, img.shape) 
+        
+        # Apply noise only to the ink pixels
+        img_float = img.astype(np.float32)
+        img_float[mask] += noise[mask]
+        
+        # Clip and convert back to uint8
+        img = np.clip(img_float, 0, 255).astype(np.uint8)
+        
+        # Re-threshold to ensure blur/noise didn't create gray pixels in the background
+        _, img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
         
     return img
 
@@ -80,7 +95,6 @@ def main():
             img = preprocess_to_mnist(img)
             
             # OVERWRITE THE ORIGINAL FILE with the cleaned-up version
-            # This ensures train_custom.py reads a perfectly uniform dataset
             cv2.imwrite(img_path, img)
             
             # Generate and save augmented variations based on the cleaned image
@@ -92,7 +106,7 @@ def main():
                 
         print(f"Digit {digit}: Preprocessed & overwrote {len(original_files)} originals, generated {aug_count - 10} augmented images.")
         
-    print("\nDone! All images in custom_data/ are now exactly 28x28, white-on-black, and augmented.")
+    print("\nDone! All images are now pure black/white, correctly sized, and cleanly augmented.")
 
 if __name__ == "__main__":
     main()
