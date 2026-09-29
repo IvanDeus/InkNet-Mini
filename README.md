@@ -101,10 +101,10 @@ python predict.py path/to/phone_number.png --multi
 1. **The Overfitting Problem:** If you train a deep learning model on only 10 images per class, it will achieve 100% training accuracy but fail completely on new data. It memorizes the exact pixels rather than learning the concept of the digit.
 2. **The Augmentation Solution:** `augment_data.py` applies random affine transformations (rotations up to 15°, shifts, zooms, blur, and noise). This forces the model to learn the *structural features* of your handwriting (loops, lines, intersections) rather than pixel-perfect memorization.
 3. **The Architecture:** The CNN uses `Dropout(0.5)` in its final dense layer. During training, this randomly turns off 50% of the neurons, further preventing the network from relying on any single memorized feature.
-4. **Increase Accuracy:** If you decide you want higher accuracy for a practical application, do not increase augmented images, but start increasing your original images.
 
 ## 💡 Tips for Best Results
 
+- **Increase Accuracy:** If you decide you want higher accuracy for a practical application, do not increase augmented images, but start increasing your original images.
 - **Contrast is King:** Ensure your original images have high contrast (black ink on white paper). The scripts automatically invert colors if needed, but clean source images yield the best results.
 - **Centering:** Try to draw the digits roughly in the center of the image frame.
 - **Isolate Digits for Multi-Prediction:** When using the `--multi` flag, ensure there is clear, empty space between each digit in the source image so the contour detection can separate them accurately.
