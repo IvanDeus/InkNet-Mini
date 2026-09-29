@@ -39,9 +39,9 @@ InkNet-Mini/
 
 ## 🚀 Installation
 
-1. **Clone the repository** (or create the project folder):
+1. **Clone the repository**:
    ```bash
-   mkdir InkNet-Mini && cd InkNet-Mini
+   git clone https://github.com/IvanDeus/InkNet-Mini.git && cd InkNet-Mini
    ```
 
 2. **Create and activate a virtual environment:**
