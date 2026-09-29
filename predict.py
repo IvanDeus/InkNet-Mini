@@ -6,7 +6,7 @@ import sys
 import os
 
 def load_model():
-    return tf.keras.models.load_model('mnist_model.keras')
+    return tf.keras.models.load_model('my_handwriting_model.keras')
 
 def preprocess_digit(digit_img):
     """Preprocess single digit to match MNIST format"""
