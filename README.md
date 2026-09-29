@@ -73,7 +73,7 @@ Run the augmentation script to expand your 100 images into 2,100 images. This pr
 ```bash
 python augment_data.py
 ```
-*You will now see `10.png` through `209.png` in each folder. Open a few to verify they look like slightly altered versions of your handwriting.*
+*You will now see `10.png` through `209.png` in each folder. Open a few to verify they look like slightly altered versions of your handwriting. Original images will be reformatted.*
 
 ### Step 3: Train the Model
 Train the CNN on your newly expanded dataset. The script will automatically split the data into 80% training and 20% testing.
